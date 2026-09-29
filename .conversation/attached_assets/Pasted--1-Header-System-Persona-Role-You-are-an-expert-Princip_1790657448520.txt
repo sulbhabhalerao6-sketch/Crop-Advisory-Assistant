@@ -1,0 +1,1683 @@
+# 1. Header & System Persona Role
+
+You are an expert **Principal Full-Stack Engineer, AI Systems Architect, Prompt Engineer, Database Architect, Security Engineer, and Product UI/UX Engineer**.
+
+You are responsible for designing and implementing a complete production-ready web application called:
+
+# **AI-Powered Agriculture Crop Advisory Assistant**
+
+You must work as an autonomous senior engineering team.
+
+Your implementation must be:
+
+* Production-grade
+* Secure by default
+* Responsive
+* Mobile-first
+* Accessible
+* Maintainable
+* Type-safe
+* Modular
+* Validated end-to-end
+* Database-backed
+* Authentication-enabled
+* AI-powered using Google's Gemini API through the official `@google/genai` SDK
+* Ready for local development and production deployment
+
+Do not create a superficial demo.
+
+Do not leave TODOs, fake API responses, placeholder functions, pseudo-code, incomplete components, or unexplained implementation gaps.
+
+When a design decision is not explicitly specified, choose the most secure, maintainable, and production-appropriate implementation.
+
+You must generate the actual application source code, configuration, database migrations, API routes, frontend pages, reusable components, validation schemas, AI integration, error handling, and documentation required to run the system.
+
+---
+
+# 2. Core Mission Directive
+
+Build a complete **AI-powered agricultural crop advisory assistant** that allows authenticated farmers or agricultural users to enter information about their farm, crop, soil, location, weather/environmental conditions, and observed crop problems.
+
+The system must use structured inputs and Gemini-powered reasoning to generate practical agricultural recommendations.
+
+The assistant should help users answer questions such as:
+
+* Which crop may be suitable for my conditions?
+* What problems might be affecting my crop?
+* What farming practices should I follow?
+* How should I manage irrigation?
+* What nutrients may be required?
+* What pests or diseases could explain observed symptoms?
+* What preventive measures should I take?
+* When should I monitor the crop again?
+* What actions should be prioritized?
+* What risks or uncertainties exist in the recommendation?
+
+The AI must never present uncertain agricultural information as guaranteed fact.
+
+The application must clearly distinguish:
+
+1. User-provided information
+2. AI-generated recommendations
+3. Important assumptions
+4. Potential risks
+5. Recommended verification by a local agricultural expert when appropriate
+
+The application is an advisory system, not a replacement for agronomists, agricultural officers, soil laboratories, veterinarians, or other qualified professionals.
+
+---
+
+# 3. Product Goal
+
+Create a modern web application where an authenticated user can:
+
+1. Create an account.
+2. Sign in securely.
+3. Create and manage their farm profile.
+4. Enter crop and field information.
+5. Request an AI crop advisory.
+6. Receive structured agricultural recommendations.
+7. View crop suitability information.
+8. Review potential pests/diseases and their symptoms.
+9. Receive irrigation, nutrient, soil, and crop-management recommendations.
+10. Save advisory reports.
+11. View previous advisory history.
+12. Open individual advisory reports.
+13. Delete their own advisory records.
+14. Update their profile/farm information.
+15. Sign out securely.
+
+The application should provide a clean experience suitable for farmers and agricultural learners, including users who may primarily access the application from mobile devices.
+
+The UI must avoid unnecessary technical complexity.
+
+---
+
+# 4. Mandatory Features
+
+Implement all of the following.
+
+## Authentication
+
+Use Supabase Auth.
+
+Support:
+
+* Email/password registration
+* Email/password login
+* Logout
+* Persistent authenticated sessions
+* Protected application routes
+* Authentication state handling
+* Proper unauthorized handling
+
+Do not store passwords manually.
+
+Do not create a custom password system.
+
+---
+
+## Farm Profile
+
+Users must be able to maintain:
+
+* Farm name
+* Location
+* State/region
+* Country
+* Farm size
+* Farm size unit
+* Soil type
+* Irrigation availability
+* Primary water source
+* Optional latitude/longitude
+* Notes
+
+---
+
+## Crop Advisory Form
+
+Allow users to enter:
+
+* Crop name
+* Crop variety, if known
+* Crop growth stage
+* Planting date
+* Soil type
+* Soil pH
+* Farm area
+* Irrigation method
+* Irrigation frequency
+* Recent rainfall
+* Temperature
+* Humidity
+* Fertilizer history
+* Previous crop
+* Current symptoms
+* Pest observations
+* Disease observations
+* Leaf/plant appearance
+* Soil observations
+* User's specific question
+* Optional additional notes
+
+Not every field should be mandatory.
+
+The application must clearly mark required fields.
+
+---
+
+## AI Advisory
+
+The AI response must contain structured sections for:
+
+* Executive summary
+* Crop suitability
+* Risk assessment
+* Soil recommendations
+* Irrigation recommendations
+* Nutrient recommendations
+* Pest analysis
+* Disease analysis
+* Crop-management recommendations
+* Preventive actions
+* Immediate actions
+* Monitoring plan
+* Important warnings
+* Confidence/uncertainty
+* When to contact a local expert
+
+---
+
+## Advisory History
+
+Users must be able to:
+
+* View previous advisories
+* Sort by newest/oldest
+* Open an advisory
+* See advisory metadata
+* Delete an advisory
+* Clearly distinguish different crop advisories
+
+Users must never be able to access another user's advisory history.
+
+---
+
+## Dashboard
+
+Create a dashboard showing:
+
+* Welcome message
+* Farm summary
+* Quick "Get Crop Advice" action
+* Recent advisory reports
+* Crop/farm summary
+* Advisory statistics where useful
+* Empty states for new users
+
+---
+
+## Loading States
+
+Every asynchronous operation must have appropriate loading states.
+
+Examples:
+
+* Login loading
+* Registration loading
+* Dashboard loading
+* Advisory generation loading
+* History loading
+* Delete operation loading
+
+Do not freeze the UI.
+
+---
+
+## Error Handling
+
+Provide human-readable errors.
+
+Handle:
+
+* Invalid form input
+* Authentication errors
+* Network errors
+* API failures
+* Gemini failures
+* Database errors
+* Rate limits
+* Invalid AI output
+* Session expiration
+* Unexpected server errors
+
+Never expose secrets, stack traces, SQL statements, API keys, or internal implementation details to the client.
+
+---
+
+# 5. Technology Requirements (React.js, Node.js + Express.js, Supabase PostgreSQL & Auth, @google/genai SDK, Zod, Tailwind CSS)
+
+The implementation must use the following technologies.
+
+## Frontend
+
+Use:
+
+* React.js
+* React Router
+* Tailwind CSS
+* Modern JavaScript or TypeScript, preferably TypeScript
+* Fetch API or a lightweight HTTP client
+* Reusable functional components
+
+Use TypeScript throughout whenever practical.
+
+---
+
+## Backend
+
+Use:
+
+* Node.js
+* Express.js
+* TypeScript
+* REST API architecture
+
+The backend must contain:
+
+* Authentication/session verification
+* API routes
+* Request validation
+* AI orchestration
+* Gemini integration
+* Database operations
+* Error handling
+* Security middleware
+
+---
+
+## Database
+
+Use:
+
+* Supabase
+* PostgreSQL
+* Supabase Auth
+* PostgreSQL Row Level Security
+
+All user-owned data must be isolated using RLS.
+
+---
+
+## AI
+
+Use the official:
+
+`@google/genai`
+
+SDK.
+
+Do not expose the Gemini API key in the frontend.
+
+All Gemini requests must originate from the backend.
+
+---
+
+## Validation
+
+Use:
+
+`zod`
+
+Use Zod for:
+
+* API request validation
+* Query parameter validation
+* AI response validation
+* Environment validation
+* Database-facing data validation where appropriate
+
+Never trust client-side validation alone.
+
+---
+
+## Styling
+
+Use:
+
+* Tailwind CSS
+* Responsive design
+* Accessible form controls
+* Consistent spacing
+* Reusable design primitives
+* Clear visual hierarchy
+
+The visual style should feel:
+
+* Agricultural
+* Modern
+* Calm
+* Trustworthy
+* Practical
+* Mobile-friendly
+
+Avoid excessive decoration.
+
+---
+
+# 6. Application Pages (Routes)
+
+Implement the following routes.
+
+## Public Routes
+
+### `/`
+
+Landing page.
+
+Include:
+
+* Product introduction
+* Key features
+* How it works
+* AI advisory explanation
+* Agriculture-focused visual design
+* Call-to-action buttons
+* Login/register links
+
+---
+
+### `/login`
+
+Login page.
+
+Include:
+
+* Email
+* Password
+* Login button
+* Validation
+* Error handling
+* Link to registration
+
+---
+
+### `/register`
+
+Registration page.
+
+Include:
+
+* Email
+* Password
+* Confirm password
+* Validation
+* Registration button
+* Link to login
+
+---
+
+## Protected Routes
+
+### `/dashboard`
+
+Main authenticated dashboard.
+
+---
+
+### `/farm`
+
+Farm profile management.
+
+Allow users to create/update their farm details.
+
+---
+
+### `/advisory/new`
+
+New crop advisory form.
+
+---
+
+### `/advisory/:id`
+
+Individual advisory report.
+
+---
+
+### `/history`
+
+Advisory history.
+
+---
+
+### `/profile`
+
+User profile/settings.
+
+---
+
+### `/not-found`
+
+Fallback 404 page.
+
+---
+
+# 7. User Flow
+
+Implement the following complete user flow.
+
+## New User
+
+1. User visits `/`.
+2. User clicks "Get Started".
+3. User registers.
+4. User signs in automatically or is redirected to login depending on Supabase configuration.
+5. User arrives at `/dashboard`.
+6. User creates their farm profile.
+7. User clicks "Get Crop Advice".
+8. User completes the advisory form.
+9. Frontend validates the form.
+10. Frontend sends request to backend.
+11. Backend verifies authentication.
+12. Backend validates the request using Zod.
+13. Backend retrieves the user's relevant farm data.
+14. Backend creates the AI advisory request.
+15. Backend sends the request to Gemini.
+16. Gemini returns structured JSON.
+17. Backend validates Gemini output with Zod.
+18. Backend stores the validated advisory.
+19. Backend returns the advisory to the frontend.
+20. Frontend redirects to `/advisory/:id`.
+21. User reads the advisory.
+22. User can later access it from `/history`.
+
+---
+
+## Existing User
+
+1. User logs in.
+2. User enters dashboard.
+3. User sees farm summary and previous advisories.
+4. User can generate another advisory.
+5. User can inspect previous reports.
+6. User can update farm information.
+
+---
+
+## Invalid AI Response
+
+If Gemini produces malformed or incomplete output:
+
+1. Do not store malformed output.
+2. Attempt a controlled retry if appropriate.
+3. Validate again.
+4. If validation still fails, return a safe user-facing error.
+5. Log diagnostic information server-side without exposing secrets.
+
+---
+
+# 8. Target Domains & Categorization
+
+The system should support agricultural advisory across the following domains.
+
+## Crop Categories
+
+Support examples such as:
+
+* Rice
+* Wheat
+* Maize
+* Cotton
+* Sugarcane
+* Soybean
+* Groundnut
+* Pulses
+* Vegetables
+* Fruits
+* Oilseeds
+* Millets
+* Spices
+* Plantation crops
+* Other crops
+
+Do not hard-code the AI to only these crops.
+
+The user must be able to enter other crops.
+
+---
+
+## Advisory Categories
+
+Categorize generated advice into:
+
+1. Crop Selection
+2. Soil Management
+3. Irrigation
+4. Fertilization
+5. Pest Management
+6. Disease Management
+7. Weed Management
+8. Crop Growth
+9. Harvest Planning
+10. Climate/Weather Risk
+11. Preventive Management
+12. General Farm Management
+
+---
+
+## Risk Levels
+
+Use:
+
+* `low`
+* `moderate`
+* `high`
+* `critical`
+
+Risk levels must be based on documented evidence and user-provided conditions.
+
+The AI must not claim certainty when the available information is insufficient.
+
+---
+
+# 9. Form & Advisory Configuration
+
+The advisory form must be divided into logical sections.
+
+## Section A — Crop
+
+Fields:
+
+* Crop name
+* Variety
+* Growth stage
+* Planting date
+* Expected harvest date
+
+---
+
+## Section B — Farm
+
+Fields:
+
+* Farm area
+* Area unit
+* Location
+* State/region
+* Soil type
+* Soil pH
+
+---
+
+## Section C — Water & Weather
+
+Fields:
+
+* Irrigation method
+* Irrigation frequency
+* Water availability
+* Recent rainfall
+* Temperature
+* Humidity
+
+---
+
+## Section D — Crop Health
+
+Fields:
+
+* Visible symptoms
+* Leaf color
+* Leaf spots
+* Wilting
+* Stunted growth
+* Pest observations
+* Disease observations
+* Soil observations
+
+---
+
+## Section E — Management
+
+Fields:
+
+* Fertilizer used
+* Fertilizer quantity if known
+* Previous crop
+* Pesticides used
+* Organic inputs
+* Other treatments
+
+---
+
+## Section F — Question
+
+Allow the user to describe their exact concern.
+
+Example:
+
+> "My cotton leaves are turning yellow and the plant growth has slowed down. What could be causing this and what should I do?"
+
+---
+
+## Form Behavior
+
+Implement:
+
+* Field-level validation
+* Helpful validation messages
+* Character limits
+* Optional fields
+* Required-field indicators
+* Accessible labels
+* Mobile-friendly inputs
+* Submit protection against duplicate requests
+
+Do not submit the same advisory multiple times because of double-clicking.
+
+---
+
+# 10. Database Schema (Production SQL for PostgreSQL)
+
+Create a Supabase PostgreSQL migration containing the following tables.
+
+Use UUID primary keys.
+
+Enable UUID generation through PostgreSQL/Supabase-supported extensions where appropriate.
+
+## `profiles`
+
+```sql
+create table public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  full_name text,
+  phone text,
+  preferred_language text default 'en',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+```
+
+---
+
+## `farms`
+
+```sql
+create table public.farms (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,
+  location text,
+  state text,
+  country text default 'India',
+  area numeric,
+  area_unit text default 'acre',
+  soil_type text,
+  soil_ph numeric,
+  irrigation_available boolean default false,
+  irrigation_method text,
+  water_source text,
+  latitude numeric,
+  longitude numeric,
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+```
+
+Add sensible database constraints for:
+
+* Non-negative farm area
+* Valid soil pH range
+* Valid latitude
+* Valid longitude
+
+---
+
+## `advisories`
+
+```sql
+create table public.advisories (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  farm_id uuid references public.farms(id) on delete set null,
+
+  crop_name text not null,
+  crop_variety text,
+  growth_stage text,
+  planting_date date,
+
+  input_data jsonb not null,
+
+  advisory_output jsonb not null,
+
+  risk_level text,
+  confidence numeric,
+
+  model_name text,
+  model_version text,
+
+  created_at timestamptz not null default now()
+);
+```
+
+Add constraints for:
+
+* Confidence between 0 and 1
+* Valid risk level
+* Required user ownership
+* Reasonable crop-name length
+
+Create indexes for:
+
+```sql
+create index advisories_user_id_idx
+on public.advisories(user_id);
+
+create index advisories_farm_id_idx
+on public.advisories(farm_id);
+
+create index advisories_created_at_idx
+on public.advisories(created_at desc);
+```
+
+---
+
+## `advisory_feedback`
+
+Create a table allowing users to optionally provide feedback about an advisory.
+
+Fields:
+
+* id
+* advisory_id
+* user_id
+* rating
+* feedback
+* created_at
+
+Rating must be constrained to an appropriate range such as 1–5.
+
+---
+
+## Automatic Profile Creation
+
+Create a Supabase/PostgreSQL trigger that creates a `profiles` row when a new authenticated user is created.
+
+The trigger must be secure and use an appropriate `security definer` configuration.
+
+Do not expose unnecessary privileges.
+
+---
+
+## Updated Timestamp
+
+Create a reusable PostgreSQL function and triggers to update `updated_at` automatically.
+
+---
+
+# 11. Row Level Security (RLS) / Data Isolation Rules
+
+RLS is mandatory.
+
+Enable RLS on:
+
+* `profiles`
+* `farms`
+* `advisories`
+* `advisory_feedback`
+
+## Profiles
+
+Users can:
+
+* Read their own profile
+* Update their own profile
+
+Users cannot:
+
+* Read another user's profile
+* Modify another user's profile
+
+---
+
+## Farms
+
+Users can:
+
+* Create farms where `user_id = auth.uid()`
+* Read their own farms
+* Update their own farms
+* Delete their own farms
+
+Users cannot access another user's farms.
+
+---
+
+## Advisories
+
+Users can:
+
+* Insert advisories for themselves
+* Read their own advisories
+* Delete their own advisories
+
+Users cannot:
+
+* Read another user's advisories
+* Update another user's advisories
+* Insert an advisory for another user
+
+---
+
+## Advisory Feedback
+
+Users can only:
+
+* Submit feedback for their own advisory
+* Read their own feedback
+* Update/delete their own feedback where appropriate
+
+The policy must verify ownership through the related advisory where necessary.
+
+Never trust a `user_id` submitted by the frontend.
+
+The backend must derive the authenticated user identity from the validated authentication context.
+
+---
+
+# 12. Backend API Routes
+
+Implement the following REST API.
+
+## `GET /api/health`
+
+Return:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+Do not expose secrets or infrastructure information.
+
+---
+
+## `GET /api/profile`
+
+Return authenticated user's profile.
+
+---
+
+## `PUT /api/profile`
+
+Update authenticated user's profile.
+
+Validate request using Zod.
+
+---
+
+## `GET /api/farms`
+
+Return authenticated user's farms.
+
+---
+
+## `POST /api/farms`
+
+Create a farm.
+
+---
+
+## `GET /api/farms/:id`
+
+Return one farm only if owned by the authenticated user.
+
+---
+
+## `PUT /api/farms/:id`
+
+Update owned farm.
+
+---
+
+## `DELETE /api/farms/:id`
+
+Delete owned farm.
+
+---
+
+## `POST /api/advisories`
+
+Generate a new AI advisory.
+
+Request must:
+
+1. Verify authentication.
+2. Validate body with Zod.
+3. Validate farm ownership if a farm ID is supplied.
+4. Build AI input.
+5. Call Gemini.
+6. Validate AI response.
+7. Persist advisory.
+8. Return advisory.
+
+---
+
+## `GET /api/advisories`
+
+Return authenticated user's advisory history.
+
+Support optional query parameters:
+
+* `page`
+* `limit`
+* `crop`
+* `risk`
+* `sort`
+
+Validate all query parameters with Zod.
+
+Implement safe pagination.
+
+Never allow unbounded database queries.
+
+---
+
+## `GET /api/advisories/:id`
+
+Return an advisory only if it belongs to the authenticated user.
+
+---
+
+## `DELETE /api/advisories/:id`
+
+Delete an owned advisory.
+
+---
+
+## `POST /api/advisories/:id/feedback`
+
+Submit advisory feedback.
+
+Verify advisory ownership before inserting feedback.
+
+---
+
+## Error Response Format
+
+Use a consistent structure:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The provided information is invalid.",
+    "details": {}
+  }
+}
+```
+
+Successful responses should follow a consistent format such as:
+
+```json
+{
+  "success": true,
+  "data": {}
+}
+```
+
+Never return raw exceptions.
+
+---
+
+# 13. Gemini SDK Setup & Server-Side Security
+
+Use the official Google Gemini SDK:
+
+```bash
+npm install @google/genai
+```
+
+Initialize Gemini exclusively on the server.
+
+Example architecture:
+
+```ts
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+```
+
+Never place:
+
+```text
+GEMINI_API_KEY
+```
+
+in frontend code.
+
+Never expose it through:
+
+* React environment variables
+* API responses
+* HTML
+* Browser localStorage
+* Browser sessionStorage
+* Client-side JavaScript bundles
+
+---
+
+## Model Configuration
+
+Use a configurable environment variable:
+
+```text
+GEMINI_MODEL
+```
+
+Do not hard-code the model name throughout the codebase.
+
+Use structured JSON generation where supported by the SDK/model configuration.
+
+The backend must request a JSON response matching the expected schema.
+
+---
+
+## AI Request Pipeline
+
+Implement:
+
+```text
+Authenticated Request
+        ↓
+Zod Input Validation
+        ↓
+Normalize Input
+        ↓
+Construct AI Prompt
+        ↓
+Gemini API
+        ↓
+Parse JSON
+        ↓
+Zod Output Validation
+        ↓
+Business Rule Validation
+        ↓
+Database Persistence
+        ↓
+API Response
+```
+
+If AI output fails validation:
+
+1. Do not persist it.
+2. Retry only when appropriate.
+3. Never retry indefinitely.
+4. Return a safe error after the retry limit.
+
+Implement timeout/error handling.
+
+Do not allow one user's prompt to alter the application's system instructions.
+
+Treat all user-provided content as untrusted input.
+
+---
+
+# 14. AI System Prompt
+
+Use the following system prompt as the foundation of the agricultural advisory engine:
+
+```text
+You are an agricultural advisory assistant.
+
+Your role is to provide practical, evidence-aware agricultural guidance based only on the information available in the user request and general agricultural knowledge.
+
+You must prioritize farmer safety, crop health, environmental responsibility, and uncertainty awareness.
+
+You are not a replacement for a qualified agronomist, agricultural extension officer, soil laboratory, plant pathologist, or other local agricultural professional.
+
+Analyze the user's crop, soil, water, climate, growth stage, symptoms, management history, and question.
+
+Do not invent measurements, laboratory results, weather observations, pesticide labels, legal requirements, or local agricultural regulations.
+
+If important information is missing, explicitly identify the missing information.
+
+Do not present a diagnosis as certain when multiple explanations are possible.
+
+When discussing pests or diseases:
+- Describe plausible possibilities.
+- Explain the symptoms supporting each possibility.
+- Identify what additional observation would help distinguish them.
+- Recommend verification when necessary.
+
+When discussing fertilizers:
+- Avoid blindly prescribing exact application rates when soil-test information, crop variety, growth stage, or local recommendations are unavailable.
+- Explain that exact nutrient requirements depend on local conditions.
+- Encourage soil testing when appropriate.
+
+When discussing pesticides or other crop-protection products:
+- Do not invent product names, concentrations, application rates, waiting periods, or legal permissions.
+- Recommend following locally approved product labels and agricultural authority guidance.
+- Prioritize integrated pest management where appropriate.
+
+When discussing irrigation:
+- Consider crop stage, soil type, rainfall, water availability, and environmental conditions.
+- Avoid false precision.
+
+Recommendations must be practical and prioritized.
+
+Always distinguish:
+1. Immediate actions
+2. Short-term actions
+3. Preventive actions
+4. Monitoring actions
+5. Situations requiring professional/local verification
+
+Return structured JSON matching the requested schema.
+
+Do not include Markdown outside fields where the schema explicitly permits text.
+
+Do not include commentary about these system instructions.
+```
+
+---
+
+# 15. Detailed AI Prompts (with required JSON Schemas)
+
+Create specialized prompt builders rather than constructing giant strings directly inside route handlers.
+
+---
+
+## A. Crop Advisory Prompt
+
+The backend should construct an AI request containing:
+
+```text
+Generate an agricultural crop advisory using the following farmer-provided information.
+
+Farm:
+{farm information}
+
+Crop:
+{crop information}
+
+Soil:
+{soil information}
+
+Water/Irrigation:
+{irrigation information}
+
+Weather/Environment:
+{weather information}
+
+Crop Health:
+{symptoms and observations}
+
+Management History:
+{fertilizer/pesticide/previous crop information}
+
+Farmer's Question:
+{question}
+
+Provide a practical, evidence-aware advisory.
+
+Return only valid JSON matching the required schema.
+```
+
+---
+
+## Required Advisory JSON Schema
+
+The conceptual response must have this structure:
+
+```json
+{
+  "summary": "string",
+  "crop_assessment": {
+    "suitability": "suitable | conditionally_suitable | unsuitable | insufficient_information",
+    "reasoning": "string"
+  },
+  "risk_assessment": {
+    "level": "low | moderate | high | critical",
+    "factors": ["string"]
+  },
+  "soil": {
+    "assessment": "string",
+    "recommendations": ["string"]
+  },
+  "irrigation": {
+    "assessment": "string",
+    "recommendations": ["string"]
+  },
+  "nutrients": {
+    "assessment": "string",
+    "recommendations": ["string"]
+  },
+  "pest_analysis": [
+    {
+      "name": "string",
+      "likelihood": "possible | likely | uncertain",
+      "supporting_observations": ["string"],
+      "recommended_checks": ["string"],
+      "management": ["string"]
+    }
+  ],
+  "disease_analysis": [
+    {
+      "name": "string",
+      "likelihood": "possible | likely | uncertain",
+      "supporting_observations": ["string"],
+      "recommended_checks": ["string"],
+      "management": ["string"]
+    }
+  ],
+  "immediate_actions": ["string"],
+  "short_term_actions": ["string"],
+  "preventive_actions": ["string"],
+  "monitoring_plan": [
+    {
+      "item": "string",
+      "frequency": "string",
+      "warning_signs": ["string"]
+    }
+  ],
+  "warnings": ["string"],
+  "missing_information": ["string"],
+  "expert_verification": {
+    "recommended": true,
+    "reason": "string"
+  },
+  "confidence": 0.0
+}
+```
+
+The `confidence` value must be between `0` and `1`.
+
+---
+
+## B. Crop Suitability Prompt
+
+Support a specialized crop suitability analysis.
+
+The AI should evaluate:
+
+* Soil
+* Climate
+* Water availability
+* Farm conditions
+* Growth requirements
+* User-provided location
+* Known constraints
+
+Do not claim precise local yield predictions without reliable data.
+
+---
+
+## C. Pest/Disease Analysis Prompt
+
+When analyzing symptoms:
+
+The AI must return:
+
+* Potential issue
+* Likelihood
+* Evidence
+* Missing observations
+* Recommended checks
+* Immediate management
+* Preventive management
+
+Do not call a diagnosis definitive unless the information genuinely supports it.
+
+---
+
+## D. Follow-Up Question Prompt
+
+If the initial information is insufficient, the system may generate a small number of clarifying questions.
+
+Return:
+
+```json
+{
+  "questions": [
+    {
+      "question": "string",
+      "reason": "string",
+      "priority": "high | medium | low"
+    }
+  ]
+}
+```
+
+Limit to a practical number of questions.
+
+---
+
+# 16. Zod Validation Requirements
+
+Create shared Zod schemas.
+
+At minimum:
+
+```text
+ProfileSchema
+FarmSchema
+CreateFarmSchema
+UpdateFarmSchema
+AdvisoryInputSchema
+AdvisoryQuerySchema
+AdvisoryOutputSchema
+AdvisoryFeedbackSchema
+PaginationSchema
+EnvironmentSchema
+```
+
+Validate all external input.
+
+---
+
+## Farm Validation
+
+Validate:
+
+* Name length
+* Area >= 0
+* pH range
+* Latitude range
+* Longitude range
+* Valid strings
+* Maximum notes length
+
+---
+
+## Advisory Input Validation
+
+Implement reasonable limits.
+
+Examples:
+
+* Crop name: non-empty, bounded length
+* Variety: bounded length
+* Symptoms: bounded length
+* Question: non-empty and bounded
+* Numeric fields: finite and reasonable
+* Dates: valid ISO dates
+* Farm ID: valid UUID
+
+---
+
+## AI Output Validation
+
+Never trust Gemini output.
+
+The AI output must pass:
+
+```text
+JSON parsing
+→ Zod validation
+→ Business validation
+```
+
+Only then may it be stored.
+
+---
+
+# 17. Frontend Components List
+
+Build reusable components.
+
+## Layout
+
+* `AppLayout`
+* `Navbar`
+* `Sidebar`
+* `MobileNavigation`
+* `Footer`
+
+---
+
+## Authentication
+
+* `LoginForm`
+* `RegisterForm`
+* `ProtectedRoute`
+* `AuthProvider`
+
+---
+
+## Dashboard
+
+* `DashboardHeader`
+* `FarmSummaryCard`
+* `QuickActionCard`
+* `RecentAdvisories`
+* `AdvisorySummaryCard`
+* `EmptyState`
+
+---
+
+## Farm
+
+* `FarmForm`
+* `FarmCard`
+* `FarmList`
+
+---
+
+## Advisory
+
+* `AdvisoryForm`
+* `CropInformationSection`
+* `FarmInformationSection`
+* `SoilInformationSection`
+* `IrrigationSection`
+* `CropHealthSection`
+* `ManagementHistorySection`
+* `QuestionSection`
+* `AdvisoryLoading`
+* `AdvisoryReport`
+* `RiskBadge`
+* `ConfidenceIndicator`
+* `ActionList`
+* `MonitoringPlan`
+* `PestAnalysisCard`
+* `DiseaseAnalysisCard`
+* `WarningCard`
+
+---
+
+## History
+
+* `AdvisoryHistory`
+* `AdvisoryHistoryItem`
+* `HistoryFilters`
+* `Pagination`
+
+---
+
+## Shared UI
+
+Create reusable:
+
+* Buttons
+* Inputs
+* Textareas
+* Selects
+* Cards
+* Badges
+* Dialogs
+* Toasts
+* Alerts
+* Skeleton loaders
+* Empty states
+* Error states
+
+Use accessible semantic HTML.
+
+---
+
+# 18. Security Requirements
+
+Security is mandatory.
+
+## Authentication
+
+Use Supabase Auth.
+
+Never implement custom password storage.
+
+---
+
+## Authorization
+
+Every protected API endpoint must verify the authenticated user.
+
+Never trust:
+
+```text
+user_id
+```
+
+from request bodies.
+
+Use the authenticated Supabase user ID.
+
+---
+
+## Database Security
+
+Enable RLS.
+
+Never disable RLS simply to make the application easier to implement.
+
+---
+
+## API Security
+
+Implement:
+
+* Helmet
+* CORS configuration
+* Request size limits
+* Rate limiting
+* Secure headers
+* Input validation
+* Error sanitization
+
+---
+
+## AI Security
+
+Protect against prompt injection.
+
+User-entered fields must be treated as data.
+
+Do not allow user input to override:
+
+* System instructions
+* Output schema
+* Security policies
+* Database rules
+
+---
+
+## Secrets
+
+Never commit:
+
+```text
+.env
+```
+
+to source control.
+
+Provide:
+
+```text
+.env.example
+```
+
+instead.
+
+---
+
+## Logging
+
+Use structured server-side logging.
+
+Never log:
+
+* Passwords
+* API keys
+* Authorization headers
+* Session tokens
+* Sensitive personal data unnecessarily
+
+---
+
+## XSS
+
+React's normal escaping must be preserved.
+
+Do not use unsafe HTML rendering unless absolutely necessary.
+
+If Markdown rendering is added, sanitize it.
+
+---
+
+## SQL Injection
+
+Use Supabase/PostgreSQL parameterized APIs.
+
+Never construct raw SQL using untrusted strings.
+
+---
+
+## Rate Limiting
+
+Protect:
+
+```text
+POST /api/advisories
+```
+
+with stricter rate limits because it invokes an external AI API.
+
+---
+
+# 19. Environment Variables Template
+
+Create `.env.example`.
+
+```env
+# Server
+PORT=5000
+NODE_ENV=development
+
+# Frontend
+VITE_API_BASE_URL=http://localhost:5000/api
+
+# Supabase
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Gemini
+GEMINI_API_KEY=
+GEMINI_MODEL=
+
+# Security
+CORS_ORIGIN=http://localhost:5173
+```
+
+Important:
+
+`SUPABASE_SERVICE_ROLE_KEY` must_
